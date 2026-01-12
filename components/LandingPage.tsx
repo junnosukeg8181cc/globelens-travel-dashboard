@@ -23,7 +23,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSearch }) => {
             <div className="text-center mb-8">
                 <div className="font-bold text-5xl tracking-tight text-primary flex items-center gap-3 justify-center">
                     <Icon name="public" className="text-5xl" />
-                    <h1>GlobeLens</h1>
+                    <h1>MachiLogue</h1>
                 </div>
                 <p className="text-slate-600 dark:text-slate-300 mt-2 text-lg">世界の都市を、データで探求する。</p>
             </div>

@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode, onNavigateH
                 </div>
                 <div className="font-bold text-xl tracking-tight text-primary flex items-center gap-2">
                     <Icon name="public" />
-                    GlobeLens
+                    MachiLogue
                 </div>
             </button>
             <div className="hidden md:flex items-center justify-center">
