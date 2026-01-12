@@ -38,7 +38,7 @@ const EconomicSnapshot: React.FC<EconomicSnapshotProps> = ({ data }) => {
                             {data.gdp.growth}
                         </div>
                     </div>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">経済規模 (GDP)</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">経済規模</p>
                     <h3 className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
                         {formatNumber(data.gdp.value)} <span className="text-2xl font-normal text-gray-500 ml-1">{data.gdp.currency}</span>
                     </h3>
