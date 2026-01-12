@@ -1,0 +1,5 @@
+{
+  "name": "GlobeLens Travel Dashboard",
+  "description": "An elegant dashboard providing economic, historical, and travel insights for any location, powered by Gemini. Explore detailed snapshots of cities and countries with a clean, data-driven interface.",
+  "requestFramePermissions": []
+}

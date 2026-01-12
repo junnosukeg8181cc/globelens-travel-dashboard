@@ -1,0 +1,71 @@
+
+export interface EconomicMetric {
+  value: string;
+  currency?: string;
+  growth?: string;
+}
+
+export interface EconomicMetricSimple {
+    value: string;
+}
+
+export interface EconomicSnapshotData {
+  year: string;
+  dataScope: string;
+  gdp: EconomicMetric;
+  tradeVolume: EconomicMetric;
+  annualVisitors: EconomicMetric;
+  unemploymentRate: EconomicMetricSimple;
+  inflationRate: EconomicMetricSimple;
+}
+
+export interface Industry {
+  name: string;
+  icon: string;
+  colorKey: string;
+}
+
+export interface TimelineEventSource {
+    name: string;
+    details: string;
+}
+
+export interface TimelineEvent {
+  year: string;
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface DeepDive {
+    title: string;
+    summary: string;
+    fullStory: string;
+    source: TimelineEventSource;
+}
+
+export interface ItineraryItem {
+  time: string;
+  title: string;
+  description: string;
+  icon: string;
+  historicalContext: string;
+}
+
+export interface TravelPlan {
+  title: string;
+  description: string;
+  itinerary: ItineraryItem[];
+}
+
+export interface LocationData {
+  locationName: string;
+  subtitle: string;
+  tags: string[];
+  headerImageUrl: string;
+  economicSnapshot: EconomicSnapshotData;
+  majorIndustries: Industry[];
+  historicalTimeline: TimelineEvent[];
+  travelPlan: TravelPlan;
+  deepDive: DeepDive;
+}
