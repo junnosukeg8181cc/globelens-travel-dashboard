@@ -58,6 +58,18 @@ export interface TravelPlan {
   itinerary: ItineraryItem[];
 }
 
+export interface TourismInfo {
+  latitude: number;
+  longitude: number;
+  regionalCenter: string;
+  distanceFromCenter: string;
+  language: string;
+  currency: string;
+  currencyRate: string;
+  area: string;
+  tourismInfo: string;
+}
+
 export interface LocationData {
   locationName: string;
   subtitle: string;
@@ -68,4 +80,5 @@ export interface LocationData {
   historicalTimeline: TimelineEvent[];
   travelPlan: TravelPlan;
   deepDive: DeepDive;
+  tourismInfo: TourismInfo;
 }

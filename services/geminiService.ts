@@ -76,9 +76,24 @@ const locationSchema = {
                 }
             },
             required: ["title", "description", "itinerary"]
+        },
+        tourismInfo: {
+            type: SchemaType.OBJECT,
+            properties: {
+                latitude: { type: SchemaType.NUMBER, description: "緯度（数値）" },
+                longitude: { type: SchemaType.NUMBER, description: "経度（数値）" },
+                regionalCenter: { type: SchemaType.STRING, description: "属する地域の中心都市名" },
+                distanceFromCenter: { type: SchemaType.STRING, description: "中心部からの距離（例: '大阪市中心部から約15km'）" },
+                language: { type: SchemaType.STRING, description: "主要言語" },
+                currency: { type: SchemaType.STRING, description: "通貨名と通貨コード（例: 'USD (US Dollar)'）" },
+                currencyRate: { type: SchemaType.STRING, description: "日本円との概算レート（例: '1 USD ≈ 150 JPY'）" },
+                area: { type: SchemaType.STRING, description: "属する地域の面積" },
+                tourismInfo: { type: SchemaType.STRING, description: "観光情報サマリ（200文字程度）" }
+            },
+            required: ["latitude", "longitude", "regionalCenter", "distanceFromCenter", "language", "currency", "currencyRate", "area", "tourismInfo"]
         }
     },
-    required: ["locationName", "englishLocationName", "subtitle", "tags", "economicSnapshot", "majorIndustries", "historicalTimeline", "travelPlan", "deepDive"],
+    required: ["locationName", "englishLocationName", "subtitle", "tags", "economicSnapshot", "majorIndustries", "historicalTimeline", "travelPlan", "deepDive", "tourismInfo"],
 };
 
 export const fetchLocationData = async (location: string): Promise<LocationData> => {
@@ -103,6 +118,7 @@ export const fetchLocationData = async (location: string): Promise<LocationData>
         **データ生成ルール:**
         - **Deep Dive (fullStory):** 日本語で2000文字以上。起承転結のある読み物として作成。
         - **数値データ:** 推定値で良いので、必ず具体的な数字を入れてください（"不明"はNG）。
+        - **観光情報 (tourismInfo):** 緯度経度は正確な数値で、観光情報サマリは日本語で200文字程度で簡潔に記述してください。
     `;
 
     let lastError;

@@ -8,11 +8,12 @@ import MajorIndustries from './components/MajorIndustries';
 import HistoryPage from './components/HistoryPage';
 import PlanPage from './components/PlanPage';
 import LandingPage from './components/LandingPage';
+import TourismInformation from './components/TourismInformation';
 import { fetchLocationData } from './services/geminiService';
 import type { LocationData } from './types';
 import LoadingAnimation from './components/LoadingAnimation';
 
-export type Tab = 'economy' | 'history' | 'plan';
+export type Tab = 'tourism' | 'history' | 'plan';
 type View = 'landing' | 'dashboard';
 
 const App: React.FC = () => {
@@ -20,7 +21,7 @@ const App: React.FC = () => {
     const [locationData, setLocationData] = useState<LocationData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [activeTab, setActiveTab] = useState<Tab>('economy');
+    const [activeTab, setActiveTab] = useState<Tab>('tourism');
     const [view, setView] = useState<View>('landing');
     const [currentLocation, setCurrentLocation] = useState<string>('');
 
@@ -59,7 +60,7 @@ const App: React.FC = () => {
         setLocationData(null); // Force reload
         setCurrentLocation(location);
         setView('dashboard');
-        setActiveTab('economy');
+        setActiveTab('tourism');
     };
 
     const handleNavigateHome = () => {
@@ -73,11 +74,12 @@ const App: React.FC = () => {
         if (!data) return null;
 
         switch (activeTab) {
-            case 'economy':
+            case 'tourism':
                 return (
                     <div className="space-y-8">
-                        <EconomicSnapshot data={data.economicSnapshot} />
+                        <TourismInformation tourismInfo={data.tourismInfo} locationName={data.locationName} />
                         <MajorIndustries industries={data.majorIndustries} />
+                        <EconomicSnapshot data={data.economicSnapshot} />
                     </div>
                 );
             case 'history':

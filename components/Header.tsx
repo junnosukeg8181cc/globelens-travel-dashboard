@@ -25,9 +25,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode, onNavigateH
                 <span className="text-sm font-semibold text-slate-900 dark:text-white">{locationName || '都市を選択'}</span>
             </div>
             <div className="flex items-center gap-3">
-                <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition text-gray-600 dark:text-gray-300">
-                    <Icon name="share" />
-                </button>
+
                 <button onClick={toggleDarkMode} className="ml-2 p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-yellow-400 transition">
                     <Icon name={isDarkMode ? 'light_mode' : 'dark_mode'} />
                 </button>
