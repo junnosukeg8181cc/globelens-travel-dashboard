@@ -1,15 +1,24 @@
 import React from 'react';
 import CityMap from './CityMap';
 import WeatherForecast from './WeatherForecast';
+import MajorIndustries from './MajorIndustries';
+import EconomicSnapshot from './EconomicSnapshot';
 import Icon from './Icon';
-import type { TourismInfo } from '../types';
+import type { TourismInfo, Industry, EconomicSnapshotData } from '../types';
 
 interface TourismInformationProps {
     tourismInfo: TourismInfo;
     locationName: string;
+    industries?: Industry[];
+    economicSnapshot?: EconomicSnapshotData;
 }
 
-const TourismInformation: React.FC<TourismInformationProps> = ({ tourismInfo, locationName }) => {
+const TourismInformation: React.FC<TourismInformationProps> = ({ 
+    tourismInfo, 
+    locationName,
+    industries,
+    economicSnapshot
+}) => {
     const {
         latitude,
         longitude,
@@ -50,17 +59,37 @@ const TourismInformation: React.FC<TourismInformationProps> = ({ tourismInfo, lo
     return (
         <section className="space-y-6">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">観光情報</h2>
-            
-            {/* 地図セクション */}
-            <div>
-                <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
-                    <Icon name="map" className="text-primary" />
-                    地図
-                </h3>
-                <CityMap tourismInfo={tourismInfo} locationName={locationName} />
+           
+            {/* 1. 最上部セクション: 観光サマリと地図 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* 左側: 観光情報サマリ */}
+                {tourismSummary && (
+                    <div>
+                        <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
+                            <Icon name="explore" className="text-primary" />
+                            観光情報サマリ
+                        </h3>
+                        <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-card border border-gray-100 dark:border-gray-700 h-full">
+                            <p className="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                                {tourismSummary}
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {/* 右側: 地図 */}
+                <div>
+                    <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
+                        <Icon name="map" className="text-primary" />
+                        地図
+                    </h3>
+                    <div className="h-[400px]">
+                        <CityMap tourismInfo={tourismInfo} locationName={locationName} />
+                    </div>
+                </div>
             </div>
 
-            {/* 天気予報セクション */}
+            {/* 2. 第2セクション: 天気予報 */}
             <div>
                 <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
                     <Icon name="wb_sunny" className="text-primary" />
@@ -69,7 +98,7 @@ const TourismInformation: React.FC<TourismInformationProps> = ({ tourismInfo, lo
                 <WeatherForecast latitude={latitude} longitude={longitude} />
             </div>
 
-            {/* 基本情報グリッド */}
+            {/* 3. 第3セクション: 基本情報グリッド */}
             <div>
                 <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
                     <Icon name="info" className="text-primary" />
@@ -98,19 +127,14 @@ const TourismInformation: React.FC<TourismInformationProps> = ({ tourismInfo, lo
                 </div>
             </div>
 
-            {/* 観光情報サマリ */}
-            {tourismSummary && (
-                <div>
-                    <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
-                        <Icon name="explore" className="text-primary" />
-                        観光情報サマリ
-                    </h3>
-                    <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-card border border-gray-100 dark:border-gray-700">
-                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
-                            {tourismSummary}
-                        </p>
-                    </div>
-                </div>
+            {/* 4. 第4セクション: 主要産業 */}
+            {industries && industries.length > 0 && (
+                <MajorIndustries industries={industries} />
+            )}
+
+            {/* 5. 第5セクション: 経済スナップショット */}
+            {economicSnapshot && (
+                <EconomicSnapshot data={economicSnapshot} />
             )}
         </section>
     );

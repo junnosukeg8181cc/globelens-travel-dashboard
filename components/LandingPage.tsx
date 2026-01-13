@@ -45,7 +45,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSearch }) => {
             </form>
 
             <div className="mt-8 text-center">
-                <p className="text-slate-500 dark:text-slate-400 mb-4">または、人気の都市を選択:</p>
+                <p className="text-slate-500 dark:text-slate-400 mb-4">または、人気の都市やランドマークを選択:</p>
                 <div className="flex flex-wrap gap-3 justify-center">
                     {suggestions.map(city => (
                         <button

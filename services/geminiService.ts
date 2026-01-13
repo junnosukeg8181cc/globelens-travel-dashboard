@@ -88,7 +88,7 @@ const locationSchema = {
                 currency: { type: SchemaType.STRING, description: "通貨名と通貨コード（例: 'USD (US Dollar)'）" },
                 currencyRate: { type: SchemaType.STRING, description: "日本円との概算レート（例: '1 USD ≈ 150 JPY'）" },
                 area: { type: SchemaType.STRING, description: "属する地域の面積" },
-                tourismInfo: { type: SchemaType.STRING, description: "観光情報サマリ（200文字程度）" }
+                tourismInfo: { type: SchemaType.STRING, description: "観光情報サマリ（400文字程度）" }
             },
             required: ["latitude", "longitude", "regionalCenter", "distanceFromCenter", "language", "currency", "currencyRate", "area", "tourismInfo"]
         }
