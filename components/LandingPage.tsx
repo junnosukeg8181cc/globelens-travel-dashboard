@@ -9,7 +9,7 @@ interface LandingPageProps {
 const LandingPage: React.FC<LandingPageProps> = ({ onSearch }) => {
     const [query, setQuery] = useState('');
 
-    const suggestions = ["東京", "パリ", "ニューヨーク", "ロンドン", "ローマ"];
+    const suggestions = ["東京タワー", "パリ", "ギザのピラミッド", "パルテノン神殿"];
 
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
