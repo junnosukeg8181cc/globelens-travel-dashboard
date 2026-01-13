@@ -64,13 +64,13 @@ const TourismInformation: React.FC<TourismInformationProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* 左側: 観光情報サマリ */}
                 {tourismSummary && (
-                    <div>
+                    <div className="flex flex-col">
                         <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
                             <Icon name="explore" className="text-primary" />
                             観光情報サマリ
                         </h3>
-                        <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-card border border-gray-100 dark:border-gray-700 h-full">
-                            <p className="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                        <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-card border border-gray-100 dark:border-gray-700 flex-1 overflow-y-auto max-h-[400px]">
+                            <p className="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line break-words">
                                 {tourismSummary}
                             </p>
                         </div>
@@ -78,12 +78,12 @@ const TourismInformation: React.FC<TourismInformationProps> = ({
                 )}
 
                 {/* 右側: 地図 */}
-                <div>
+                <div className="flex flex-col">
                     <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
                         <Icon name="map" className="text-primary" />
                         地図
                     </h3>
-                    <div className="h-[400px]">
+                    <div className="h-[400px] rounded-xl overflow-hidden">
                         <CityMap tourismInfo={tourismInfo} locationName={locationName} />
                     </div>
                 </div>
