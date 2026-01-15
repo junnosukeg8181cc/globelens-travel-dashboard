@@ -103,7 +103,7 @@ const App: React.FC = () => {
             default:
                 return (
                     <>
-                        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} onNavigateHome={handleNavigateHome} locationName={locationData?.locationName} tags={locationData?.tags} />
+                        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} onNavigateHome={handleNavigateHome} locationName={locationData?.locationName} tags={currentTags} />
                         <main className="pt-16 pb-16">
                             {error && (
                                 <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 text-center m-4 rounded" role="alert">

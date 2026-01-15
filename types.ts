@@ -65,6 +65,7 @@ export interface TourismInfo {
   distanceFromCenter: string;
   language: string;
   currency: string;
+  currencyCode: string; // 追加: ISO通貨コード (USD, EUR, etc.)
   currencyRate: string;
   area: string;
   tourismInfo: string;
@@ -83,5 +84,4 @@ export interface LocationData {
   tourismInfo: TourismInfo;
 }
 
-// 追加: 興味タグの型定義
 export type SearchTag = '金融' | 'トレンド' | 'アート' | '民俗' | '交通・インフラ' | 'グルメ' | '人口流体';

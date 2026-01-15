@@ -85,12 +85,13 @@ const locationSchema = {
                 regionalCenter: { type: SchemaType.STRING, description: "属する地域の中心都市名" },
                 distanceFromCenter: { type: SchemaType.STRING, description: "中心部からの距離（例: '大阪市中心部から約15km'）" },
                 language: { type: SchemaType.STRING, description: "主要言語" },
-                currency: { type: SchemaType.STRING, description: "通貨名と通貨コード（例: 'USD (US Dollar)'）" },
+                currency: { type: SchemaType.STRING, description: "通貨名（例: '米ドル (USD)'）" },
+                currencyCode: { type: SchemaType.STRING, description: "3文字のISO通貨コード（例: 'USD', 'EUR', 'KRW', 'JPY'）" }, // 追加
                 currencyRate: { type: SchemaType.STRING, description: "日本円との概算レート（例: '1 USD ≈ 150 JPY'）" },
                 area: { type: SchemaType.STRING, description: "属する地域の面積" },
                 tourismInfo: { type: SchemaType.STRING, description: "観光情報サマリ（400文字程度）" }
             },
-            required: ["latitude", "longitude", "regionalCenter", "distanceFromCenter", "language", "currency", "currencyRate", "area", "tourismInfo"]
+            required: ["latitude", "longitude", "regionalCenter", "distanceFromCenter", "language", "currency", "currencyCode", "currencyRate", "area", "tourismInfo"]
         }
     },
     required: ["locationName", "englishLocationName", "subtitle", "tags", "economicSnapshot", "majorIndustries", "historicalTimeline", "travelPlan", "deepDive", "tourismInfo"],
@@ -123,15 +124,17 @@ export const fetchLocationData = async (location: string, tags: string[] = []): 
            - NG: "歴史", "お金", "電車", "Train" (大文字NG)
         
         **データ生成ルール:**
-        - **Deep Dive (fullStory):** 読者を惹き込む「1000文字以上の長編レポート」が必要です。
-           単なる羅列ではなく、以下の5つの視点を**それぞれ200文字以上**深く掘り下げて、一つの物語として構成してください。
+        - **Deep Dive (fullStory):** 読者を惹き込む「2000文字以上の長編レポート」が必要です。
+           単なる羅列ではなく、以下の5つの視点を**それぞれ400文字以上**深く掘り下げて、一つの物語として構成してください。
            1. 【歴史の深層】: 起源から現代に至るまでのドラマチックな変遷
            2. 【経済の鼓動】: 産業構造の変化と、それが人々の生活にどう影響しているか
            3. 【文化と人々】: 地元の人しか知らない風習、食文化、気質
            4. 【知られざる側面】: 一般的なガイドブックには載らない裏話や課題
            5. 【未来への展望】: この都市が今後どう変わっていくかの予測
         - **数値データ:** 推定値で良いので、必ず具体的な数字を入れてください（"不明"はNG）。
-        - **観光情報 (tourismInfo):** 緯度経度は正確な数値で、観光情報サマリは日本語で200文字程度で簡潔に記述してください。
+        - **観光情報 (tourismInfo):** - 緯度経度は正確な数値で出力してください。
+            - currencyCodeは必ず3文字のISOコード（例: USD）で出力してください。
+            - 観光情報サマリは日本語で200文字程度で簡潔に記述してください。
     `;
 
     let lastError;

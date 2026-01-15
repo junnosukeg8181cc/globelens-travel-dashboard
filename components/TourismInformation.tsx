@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CityMap from './CityMap';
 import WeatherForecast from './WeatherForecast';
 import MajorIndustries from './MajorIndustries';
@@ -26,10 +26,35 @@ const TourismInformation: React.FC<TourismInformationProps> = ({
         distanceFromCenter,
         language,
         currency,
+        currencyCode,
         currencyRate,
         area,
         tourismInfo: tourismSummary,
     } = tourismInfo;
+
+    const [realtimeRate, setRealtimeRate] = useState<string | null>(null);
+
+    // リアルタイム為替レートの取得
+    useEffect(() => {
+        const fetchRate = async () => {
+            // 日本円の場合やコードがない場合はスキップ
+            if (!currencyCode || currencyCode === 'JPY') return;
+
+            try {
+                const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${currencyCode}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                const jpyRate = data.rates.JPY;
+                if (jpyRate) {
+                    setRealtimeRate(`1 ${currencyCode} = ${jpyRate.toFixed(2)} JPY (現在)`);
+                }
+            } catch (error) {
+                console.error("Failed to fetch realtime currency rate:", error);
+            }
+        };
+
+        fetchRate();
+    }, [currencyCode]);
 
     const infoItems = [
         {
@@ -47,7 +72,8 @@ const TourismInformation: React.FC<TourismInformationProps> = ({
             icon: 'attach_money',
             label: '通貨',
             value: currency,
-            subValue: currencyRate,
+            // リアルタイムレートが取れていればそれを表示、なければGeminiの概算を表示
+            subValue: realtimeRate || currencyRate,
         },
         {
             icon: 'square_foot',
