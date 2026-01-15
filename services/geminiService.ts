@@ -101,8 +101,9 @@ export const fetchLocationData = async (location: string, tags: string[] = []): 
     // 【修正】のすけさん指定の最新エースモデルリスト
     const modelsToTry = [
         "gemini-2.5-flash-lite", // エース
+        "gemini-2.5-flash",
         "gemini-3-flash-preview", // ちょっと賢い版
-        "gemini-pro",             // 旧エース
+        "gemini-3-flash",             // 旧エース
     ];
 
     // タグが選択されている場合の追加指示

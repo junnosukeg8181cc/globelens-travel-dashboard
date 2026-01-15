@@ -8,9 +8,10 @@ import HistoryPage from './components/HistoryPage';
 import PlanPage from './components/PlanPage';
 import LandingPage from './components/LandingPage';
 import TourismInformation from './components/TourismInformation';
-import { fetchLocationData } from './services/geminiService';
+//import { fetchLocationData } from './services/geminiService';
 import type { LocationData, SearchTag } from './types';
 import LoadingAnimation from './components/LoadingAnimation';
+import { getLocationData } from './services/locationService';
 
 export type Tab = 'tourism' | 'history' | 'plan';
 type View = 'landing' | 'dashboard';
@@ -41,7 +42,7 @@ const App: React.FC = () => {
                     setIsLoading(true);
                     setError(null);
                     // タグ情報を渡してデータを取得
-                    const data = await fetchLocationData(currentLocation, currentTags);
+                    const data = await getLocationData(currentLocation, currentTags);
                     setLocationData(data);
                 } catch (err) {
                     console.error(`Failed to fetch location data for ${currentLocation}:`, err);

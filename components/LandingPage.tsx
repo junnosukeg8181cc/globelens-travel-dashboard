@@ -56,7 +56,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSearch }) => {
 
                 {/* タグ選択エリア */}
                 <div className="flex flex-col items-center gap-3">
-                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">興味のあるテーマを選択（Geminiが重点的に解説します）:</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">興味のあるテーマを選択:</p>
                     <div className="flex flex-wrap gap-2 justify-center">
                         {AVAILABLE_TAGS.map(tag => (
                             <button
