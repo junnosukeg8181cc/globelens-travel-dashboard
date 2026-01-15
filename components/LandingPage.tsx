@@ -1,21 +1,32 @@
-
 import React, { useState } from 'react';
 import Icon from './Icon';
+import type { SearchTag } from '../types';
 
 interface LandingPageProps {
-    onSearch: (location: string) => void;
+    onSearch: (location: string, tags: SearchTag[]) => void;
 }
+
+const AVAILABLE_TAGS: SearchTag[] = ['金融', 'トレンド', 'アート', '民俗', '交通・インフラ', 'グルメ', '人口流体'];
 
 const LandingPage: React.FC<LandingPageProps> = ({ onSearch }) => {
     const [query, setQuery] = useState('');
+    const [selectedTags, setSelectedTags] = useState<SearchTag[]>([]);
 
     const suggestions = ["東京タワー", "パリ", "ギザのピラミッド", "パルテノン神殿"];
 
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (query.trim()) {
-            onSearch(query.trim());
+            onSearch(query.trim(), selectedTags);
         }
+    };
+
+    const toggleTag = (tag: SearchTag) => {
+        setSelectedTags(prev => 
+            prev.includes(tag) 
+                ? prev.filter(t => t !== tag) 
+                : [...prev, tag]
+        );
     };
 
     return (
@@ -28,7 +39,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSearch }) => {
                 <p className="text-slate-600 dark:text-slate-300 mt-2 text-lg">世界の都市を、データで探求する。</p>
             </div>
 
-            <form onSubmit={handleFormSubmit} className="w-full max-w-xl">
+            <form onSubmit={handleFormSubmit} className="w-full max-w-xl space-y-6">
                 <div className="relative">
                     <input
                         type="text"
@@ -42,6 +53,28 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSearch }) => {
                         <Icon name="search" />
                     </button>
                 </div>
+
+                {/* タグ選択エリア */}
+                <div className="flex flex-col items-center gap-3">
+                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">興味のあるテーマを選択（Geminiが重点的に解説します）:</p>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                        {AVAILABLE_TAGS.map(tag => (
+                            <button
+                                type="button"
+                                key={tag}
+                                onClick={() => toggleTag(tag)}
+                                className={`px-3 py-1.5 text-sm rounded-full border transition-all duration-200 flex items-center gap-1 ${
+                                    selectedTags.includes(tag)
+                                        ? 'bg-primary text-white border-primary shadow-md'
+                                        : 'bg-white dark:bg-surface-dark text-slate-600 dark:text-slate-300 border-gray-200 dark:border-gray-700 hover:border-primary/50'
+                                }`}
+                            >
+                                {selectedTags.includes(tag) && <Icon name="check" className="text-xs" />}
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
+                </div>
             </form>
 
             <div className="mt-8 text-center">
@@ -50,7 +83,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSearch }) => {
                     {suggestions.map(city => (
                         <button
                             key={city}
-                            onClick={() => onSearch(city)}
+                            onClick={() => onSearch(city, selectedTags)}
                             className="px-4 py-2 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-primary/50 transition font-medium"
                         >
                             {city}

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -10,7 +9,7 @@ import PlanPage from './components/PlanPage';
 import LandingPage from './components/LandingPage';
 import TourismInformation from './components/TourismInformation';
 import { fetchLocationData } from './services/geminiService';
-import type { LocationData } from './types';
+import type { LocationData, SearchTag } from './types';
 import LoadingAnimation from './components/LoadingAnimation';
 
 export type Tab = 'tourism' | 'history' | 'plan';
@@ -24,6 +23,7 @@ const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState<Tab>('tourism');
     const [view, setView] = useState<View>('landing');
     const [currentLocation, setCurrentLocation] = useState<string>('');
+    const [currentTags, setCurrentTags] = useState<SearchTag[]>([]);
 
     useEffect(() => {
         const root = window.document.documentElement;
@@ -40,7 +40,8 @@ const App: React.FC = () => {
                 try {
                     setIsLoading(true);
                     setError(null);
-                    const data = await fetchLocationData(currentLocation);
+                    // タグ情報を渡してデータを取得
+                    const data = await fetchLocationData(currentLocation, currentTags);
                     setLocationData(data);
                 } catch (err) {
                     console.error(`Failed to fetch location data for ${currentLocation}:`, err);
@@ -52,13 +53,15 @@ const App: React.FC = () => {
 
             loadData();
         }
-    }, [view, currentLocation, locationData]);
+    }, [view, currentLocation, currentTags, locationData]);
 
     const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
-    const handleSearch = (location: string) => {
+    // handleSearchの引数にtagsを追加
+    const handleSearch = (location: string, tags: SearchTag[]) => {
         setLocationData(null); // Force reload
         setCurrentLocation(location);
+        setCurrentTags(tags);
         setView('dashboard');
         setActiveTab('tourism');
     };
@@ -66,6 +69,7 @@ const App: React.FC = () => {
     const handleNavigateHome = () => {
         setView('landing');
         setCurrentLocation('');
+        setCurrentTags([]);
         setLocationData(null);
     };
 
@@ -99,7 +103,7 @@ const App: React.FC = () => {
             default:
                 return (
                     <>
-                        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} onNavigateHome={handleNavigateHome} locationName={locationData?.locationName} />
+                        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} onNavigateHome={handleNavigateHome} locationName={locationData?.locationName} tags={locationData?.tags} />
                         <main className="pt-16 pb-16">
                             {error && (
                                 <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 text-center m-4 rounded" role="alert">

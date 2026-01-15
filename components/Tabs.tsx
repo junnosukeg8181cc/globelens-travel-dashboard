@@ -12,7 +12,7 @@ const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
     const tabItems: { id: Tab, label: string; icon: string }[] = [
         { id: 'tourism', label: '観光', icon: 'explore' },
         { id: 'history', label: '歴史', icon: 'history_edu' },
-        { id: 'plan', label: 'プラン', icon: 'map' },
+        { id: 'plan', label: '旅行計画', icon: 'map' },
     ];
     
     return (

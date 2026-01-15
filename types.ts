@@ -1,4 +1,3 @@
-
 export interface EconomicMetric {
   value: string;
   currency?: string;
@@ -35,6 +34,7 @@ export interface TimelineEvent {
   title: string;
   description: string;
   icon: string;
+  historicalContext: string;
 }
 
 export interface DeepDive {
@@ -82,3 +82,6 @@ export interface LocationData {
   deepDive: DeepDive;
   tourismInfo: TourismInfo;
 }
+
+// 追加: 興味タグの型定義
+export type SearchTag = '金融' | 'トレンド' | 'アート' | '民俗' | '交通・インフラ' | 'グルメ' | '人口流体';

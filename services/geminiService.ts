@@ -96,17 +96,24 @@ const locationSchema = {
     required: ["locationName", "englishLocationName", "subtitle", "tags", "economicSnapshot", "majorIndustries", "historicalTimeline", "travelPlan", "deepDive", "tourismInfo"],
 };
 
-export const fetchLocationData = async (location: string): Promise<LocationData> => {
+export const fetchLocationData = async (location: string, tags: string[] = []): Promise<LocationData> => {
     // 【修正】のすけさん指定の最新エースモデルリスト
     const modelsToTry = [
-        "gemini-2.5-flash-lite", // エース（※ID形式に修正）
+        "gemini-2.5-flash-lite", // エース
         "gemini-3-flash-preview", // ちょっと賢い版
         "gemini-pro",             // 旧エース
     ];
 
+    // タグが選択されている場合の追加指示
+    const tagsInstruction = tags.length > 0 
+        ? `\n**【最重要】ユーザーの関心テーマ:**\nユーザーは特に以下の分野に興味があります: ${tags.join(', ')}。\n歴史タイムライン、Deep Dive (fullStory)、旅行プランを作成する際は、これらのテーマに関連する出来事やスポット、文脈を優先的に取り上げてください。` 
+        : "";
+
     const prompt = `
         Role: 世界のトップトラベルジャーナリスト兼経済アナリスト。
         Objective: 「${location}」の観光・経済・歴史データを生成する。
+
+        ${tagsInstruction}
 
         **【重要】言語とアイコンのルール (Strict Rules):**
         1. **文章はすべて日本語**で出力してください。
@@ -116,9 +123,8 @@ export const fetchLocationData = async (location: string): Promise<LocationData>
            - NG: "歴史", "お金", "電車", "Train" (大文字NG)
         
         **データ生成ルール:**
-        - **Deep Dive (fullStory):** 
-            読者を惹き込む「2000文字以上の長編レポート」が必要です。
-           単なる羅列ではなく、以下の5つの視点を**それぞれ400文字以上**深く掘り下げて、一つの物語として構成してください。
+        - **Deep Dive (fullStory):** 読者を惹き込む「1000文字以上の長編レポート」が必要です。
+           単なる羅列ではなく、以下の5つの視点を**それぞれ200文字以上**深く掘り下げて、一つの物語として構成してください。
            1. 【歴史の深層】: 起源から現代に至るまでのドラマチックな変遷
            2. 【経済の鼓動】: 産業構造の変化と、それが人々の生活にどう影響しているか
            3. 【文化と人々】: 地元の人しか知らない風習、食文化、気質
