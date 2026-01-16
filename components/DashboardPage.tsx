@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async'; 
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Hero from './Hero';
@@ -9,14 +10,11 @@ import HistoryPage from './HistoryPage';
 import PlanPage from './PlanPage';
 import TourismInformation from './TourismInformation';
 import LoadingAnimation from './LoadingAnimation';
-// @ はルートディレクトリを指すのでこれでOK
 import { getLocationData } from '@/services/locationService';
 import type { LocationData, Tab, SearchTag } from '@/types';
 
 const DashboardPage: React.FC = () => {
-    // URLからパラメータを取得 (/city/:cityName)
     const { cityName } = useParams<{ cityName: string }>();
-    // URLのクエリパラメータを取得 (?tags=...)
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
@@ -26,7 +24,6 @@ const DashboardPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<Tab>('tourism');
 
-    // URLの ?tags=グルメ,歴史 を配列に変換
     const currentTags = (searchParams.get('tags')?.split(',') || []) as SearchTag[];
 
     useEffect(() => {
@@ -41,7 +38,6 @@ const DashboardPage: React.FC = () => {
                 try {
                     setIsLoading(true);
                     setError(null);
-                    // Supabase/Geminiからデータ取得
                     const data = await getLocationData(cityName, currentTags);
                     setLocationData(data);
                 } catch (err) {
@@ -53,7 +49,7 @@ const DashboardPage: React.FC = () => {
             };
             loadData();
         }
-    }, [cityName, searchParams.toString()]); // URLが変わったら再取得
+    }, [cityName, searchParams.toString()]);
 
     const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
     
@@ -79,6 +75,26 @@ const DashboardPage: React.FC = () => {
 
     return (
         <>
+            {/* SEOメタタグの設定 */}
+            {locationData && (
+                <Helmet>
+                    <title>{`${locationData.locationName}の観光・経済・歴史データ | MachiLogue`}</title>
+                    <meta name="description" content={`${locationData.locationName}の歴史、主要産業、経済指標をAIが詳細に分析。${locationData.subtitle}`} />
+                    
+                    {/* SNSシェア用 (OGP) */}
+                    <meta property="og:title" content={`${locationData.locationName}を探求する | MachiLogue`} />
+                    <meta property="og:description" content={locationData.subtitle} />
+                    <meta property="og:image" content={locationData.headerImageUrl} />
+                    <meta property="og:type" content="article" />
+                    
+                    {/* Twitter用 */}
+                    <meta name="twitter:card" content="summary_large_image" />
+                    <meta name="twitter:title" content={`${locationData.locationName}の旅データ`} />
+                    <meta name="twitter:description" content={locationData.subtitle} />
+                    <meta name="twitter:image" content={locationData.headerImageUrl} />
+                </Helmet>
+            )}
+
             <Header 
                 isDarkMode={isDarkMode} 
                 toggleDarkMode={toggleDarkMode} 

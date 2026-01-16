@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async'; // 追加
 import LandingPage from '@/components/LandingPage';
 import DashboardPage from '@/components/DashboardPage';
 import GeneratorPage from '@/components/GeneratorPage';
@@ -22,18 +23,15 @@ const SearchHandler = () => {
 // ここが唯一の App 定義になります
 const App: React.FC = () => {
     return (
-        <Router>
-            <Routes>
-                {/* トップページ */}
-                <Route path="/" element={<SearchHandler />} />
-                
-                {/* 詳細ページ */}
-                <Route path="/city/:cityName" element={<DashboardPage />} />
-                
-                {/* 管理者用：データ生成工場 */}
-                <Route path="/admin/generator" element={<GeneratorPage />} />
-            </Routes>
-        </Router>
+        <HelmetProvider> {/* ここで囲む */}
+            <Router>
+                <Routes>
+                    <Route path="/" element={<SearchHandler />} />
+                    <Route path="/city/:cityName" element={<DashboardPage />} />
+                    <Route path="/admin/generator" element={<GeneratorPage />} />
+                </Routes>
+            </Router>
+        </HelmetProvider>
     );
 };
 
